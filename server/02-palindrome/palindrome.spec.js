@@ -3,15 +3,17 @@ describe.only('the palindrome canary spec', () => {
     true.should.be.true();
   });
 
-  function ispalindrome() {
-      return true;
+  function ispalindrome(word) {
+    return word === word.split('').reverse().join('');
   }
 
   describe('a palindrome', () => {
     it('is racecar', () => {
       ispalindrome('racecar').should.be.true();
     });
-    it('is not racecars');
+    it('is not racecars', () => {
+      ispalindrome('racecars').should.be.false();
+    });
     it('is not race car');
     it('"      " is not a palindrome');
     it('"" is not a palindrome');
