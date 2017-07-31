@@ -1,18 +1,18 @@
-const makeStack = () => {
-  let stackSize = 0;
+const makeStack = (maxSize = 2) => {
+  let stackValues = [];
+  if (maxSize < 1) throw new Error('stack size cannot be < 1');
 
-  // noinspection JSAnnotator
   return {
-    isEmpty: () => stackSize === 0,
-    size: () => stackSize,
-    push: () => {
-      if (stackSize === 3) throw new Error('stack size cannot exceed 3');
-      stackSize++;
+    isEmpty: () => stackValues.length === 0,
+    size: () => stackValues.length,
+    push: (value) => {
+      if (stackValues.length === maxSize) throw new Error('stack size cannot exceed 3');
+      stackValues.push(value);
     },
     pop: () => {
-      if (stackSize === 0) throw new Error('cannot pop empty stack');
-      stackSize--;
-    },
+      if (stackValues.length === 0) throw new Error('cannot pop empty stack');
+      return stackValues.pop();
+    }
   };
 };
 
@@ -54,6 +54,7 @@ describe.only('the stack spec', () => {
   });
 
   it('overflows', () => {
+    stack = makeStack(3);
     stack.push();
     stack.push();
     stack.push();
@@ -65,13 +66,28 @@ describe.only('the stack spec', () => {
   it('under-flows', () => {
     stack.push();
     stack.pop();
-    (() => {
+
+    const underFlow = () => {
       stack.pop();
-    }).should.throw('cannot pop empty stack');
+    };
+    underFlow.should.throw('cannot pop empty stack');
   });
 
-  it('pops the same one pushed');
-  it('pops the same two pushed');
-  it('accepts only positive capacity');
+  it('pops the same one pushed', () => {
+    stack.push('a');
+    stack.pop().should.be.equal('a');
+  });
+
+  it('pops the same two pushed', () => {
+    stack.push('a');
+    stack.push('b');
+    stack.pop().should.be.equal('b');
+    stack.pop().should.be.equal('a');
+  });
+  it('accepts only positive capacity', () => {
+    (() => {
+      stack = makeStack(0);
+    }).should.throw('stack size cannot be < 1');
+  });
 });
 
