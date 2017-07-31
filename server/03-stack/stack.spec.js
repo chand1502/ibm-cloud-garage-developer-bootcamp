@@ -1,6 +1,14 @@
-describe.only('the stack spec', () => {
-  it('start empty');
-  it('starts with stack size 0');
+let stack = {
+  isEmpty: () => true
+};
+
+describe.only('the stack', () => {
+  it('start empty', () => {
+    stack.isEmpty().should.be.true();
+  });
+  it('starts with stack size 0', () => {
+
+  });
   it('is not empty when pushed');
   it('leaves stack size 1 when pushed');
   it('leaves stack empty when pushed and popped');
