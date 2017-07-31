@@ -4,13 +4,18 @@ const makeStack = () => {
   return {
     isEmpty: () => stackSize === 0,
     size: () => stackSize,
-    push: () => stackSize++
+    push: () => stackSize++,
+    pop: () => stackSize--
  };
 };
 
-let stack = makeStack();
+let stack;
 
 describe.only('the stack', () => {
+  beforeEach(() => {
+    stack = makeStack();
+  });
+
   it('start empty', () => {
     stack.isEmpty().should.be.true();
   });
@@ -25,10 +30,16 @@ describe.only('the stack', () => {
   });
 
   it('leaves stack size 1 when pushed', () => {
-  stack.size().should.equal(1);
+    stack.push();
+    stack.size().should.equal(1);
   });
 
-  it('leaves stack empty when pushed and popped');
+  it('leaves stack empty when pushed and popped', () => {
+    stack.push();
+    stack.pop();
+    stack.isEmpty().should.be.true();
+  });
+
   it('leaves stack size 0 when pushed and popped');
   it('overflows');
   it('under-flows');
